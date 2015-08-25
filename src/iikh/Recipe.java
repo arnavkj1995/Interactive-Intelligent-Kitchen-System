@@ -5,8 +5,11 @@
  */
 package iikh;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -24,16 +27,16 @@ public class Recipe extends javax.swing.JFrame {
         db = new Database();
         add.setEnabled(false);
         jComboBox1.setEditable(false);
+        jComboBox1.setEnabled(false);
         ok.setEnabled(false);
         repName.setEditable(false);
         items.setEditable(false);
         methods.setEditable(false);
+        rm.setEnabled(false);
     }
 
     public void addRecipe(){
         index = 0;
-        ok.setEnabled(false);
-        jComboBox1.setEnabled(false);
         items.setEditable(true);
         methods.setEditable(true);
         repName.setEditable(true);
@@ -77,6 +80,7 @@ public class Recipe extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox();
         jLabel6 = new javax.swing.JLabel();
         ok = new javax.swing.JButton();
+        rm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,14 +149,23 @@ public class Recipe extends javax.swing.JFrame {
             }
         });
 
+        rm.setText("Remove");
+        rm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rmActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(141, 141, 141)
+                        .addContainerGap()
+                        .addComponent(rm, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(con, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(add, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
@@ -189,10 +202,10 @@ public class Recipe extends javax.swing.JFrame {
                                 .addComponent(ok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(9, 9, 9)))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(282, 282, 282)
                 .addComponent(jLabel1)
-                .addGap(241, 241, 241))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,7 +237,8 @@ public class Recipe extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(con)
                     .addComponent(add1)
-                    .addComponent(edit))
+                    .addComponent(edit)
+                    .addComponent(rm))
                 .addGap(22, 22, 22))
         );
 
@@ -247,14 +261,16 @@ public class Recipe extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(jOptionPane1, "Recipe has been added");
-            repName.setText("");
-            items.setText("");
-            methods.setText("");
             if(index == 0)
                 db.addRecipe(repName.getText(), arrList, arrList2);
             else
                 db.editRecipe(jComboBox1.getSelectedItem().toString(), repName.getText(), arrList, arrList2);
+
+            repName.setText("");
+            items.setText("");
+            methods.setText("");
             index = 0;
+            addRecipe();
         }
     }//GEN-LAST:event_addActionPerformed
 
@@ -282,7 +298,13 @@ public class Recipe extends javax.swing.JFrame {
             items.setText("");
             methods.setText("");
         }
+        items.setEditable(true);
+        methods.setEditable(true);
+        repName.setEditable(true);
+        add.setEnabled(false);
+        con.setEnabled(true);
         index = 0;
+        rm.setEnabled(false);
     }//GEN-LAST:event_add1ActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
@@ -292,6 +314,7 @@ public class Recipe extends javax.swing.JFrame {
         items.setEditable(true);
         methods.setEditable(true);
         repName.setEditable(true);
+        rm.setEnabled(false);
     }//GEN-LAST:event_editActionPerformed
 
     private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
@@ -307,8 +330,23 @@ public class Recipe extends javax.swing.JFrame {
             items.append(x + "\n");
         for(String x: mtd)
             methods.append(x + "\n");
-        
+        index = 1;
+        items.setEditable(false);
+        methods.setEditable(false);
+        repName.setEditable(false);
+        con.setEnabled(false);
+        add.setEnabled(false);
+        rm.setEnabled(true);
     }//GEN-LAST:event_okActionPerformed
+
+    private void rmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmActionPerformed
+        // TODO add your handling code here:
+        int response = JOptionPane.showConfirmDialog(jOptionPane1, "Do you want to continue?", "Confirm",
+        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+         if (response == JOptionPane.YES_OPTION) {
+            db.removeRecipe(jComboBox1.getSelectedItem().toString());  
+         }
+    }//GEN-LAST:event_rmActionPerformed
 
     /**
      * @param args the command line arguments
@@ -365,5 +403,6 @@ public class Recipe extends javax.swing.JFrame {
     private javax.swing.JTextArea methods;
     private javax.swing.JButton ok;
     private javax.swing.JTextField repName;
+    private javax.swing.JButton rm;
     // End of variables declaration//GEN-END:variables
 }
