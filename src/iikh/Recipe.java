@@ -7,7 +7,7 @@ package iikh;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import javax.swing.JOptionPane;
 /**
  *
  * @author oop31
@@ -17,12 +17,38 @@ public class Recipe extends javax.swing.JFrame {
     /**
      * Creates new form Recipe
      */
+    static int index = 0;
     Database db;
     public Recipe() {
         initComponents();
         db = new Database();
+        add.setEnabled(false);
+        jComboBox1.setEditable(false);
+        ok.setEnabled(false);
+        repName.setEditable(false);
+        items.setEditable(false);
+        methods.setEditable(false);
     }
 
+    public void addRecipe(){
+        index = 0;
+        ok.setEnabled(false);
+        jComboBox1.setEnabled(false);
+        items.setEditable(true);
+        methods.setEditable(true);
+        repName.setEditable(true);
+    }    
+    public void browseRecipe(){
+        index = 1;
+        con.setEnabled(false);
+        add.setEnabled(false);
+        ArrayList<String> arr = db.repNames();
+        ok.setEnabled(true);
+        jComboBox1.setEnabled(true);
+        jComboBox1.removeAllItems();
+        for(String x: arr)
+            jComboBox1.addItem(x);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,6 +58,7 @@ public class Recipe extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -47,6 +74,9 @@ public class Recipe extends javax.swing.JFrame {
         add1 = new javax.swing.JButton();
         edit = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        ok = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,6 +134,17 @@ public class Recipe extends javax.swing.JFrame {
 
         jLabel5.setText("Indegreints and methods should pe line seperated");
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel6.setText("Select Recipe");
+
+        ok.setText("OK");
+        ok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,15 +172,22 @@ public class Recipe extends javax.swing.JFrame {
                                 .addGap(29, 29, 29))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel2)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addComponent(jScrollPane2)
-                            .addComponent(repName)
+                            .addComponent(repName, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(9, 9, 9)))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -151,7 +199,12 @@ public class Recipe extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(ok))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(repName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -163,7 +216,7 @@ public class Recipe extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -184,7 +237,25 @@ public class Recipe extends javax.swing.JFrame {
         ArrayList<String>arrList = new ArrayList<>(Arrays.asList(itms)) ;
         String mds[] = methods.getText().split("\\r?\\n");
         ArrayList<String>arrList2 = new ArrayList<>(Arrays.asList(mds)) ;
-        db.addRecipe(repName.getText(), arrList, arrList2);
+        if(itms[0].equals("") || mds[0].equals("")){
+            add.setEnabled(false);
+            con.setEnabled(true);
+            items.setEditable(true);
+            methods.setEditable(true);
+            repName.setEditable(true);
+            JOptionPane.showMessageDialog (jOptionPane1, "Enter valid values");
+        }
+        else{
+            JOptionPane.showMessageDialog(jOptionPane1, "Recipe has been added");
+            repName.setText("");
+            items.setText("");
+            methods.setText("");
+            if(index == 0)
+                db.addRecipe(repName.getText(), arrList, arrList2);
+            else
+                db.editRecipe(jComboBox1.getSelectedItem().toString(), repName.getText(), arrList, arrList2);
+            index = 0;
+        }
     }//GEN-LAST:event_addActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -206,9 +277,12 @@ public class Recipe extends javax.swing.JFrame {
 
     private void add1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add1ActionPerformed
         // TODO add your handling code here:
-        repName.setText("");
-        items.setText("");
-        methods.setText("");
+        if(index == 0){
+            repName.setText("");
+            items.setText("");
+            methods.setText("");
+        }
+        index = 0;
     }//GEN-LAST:event_add1ActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
@@ -219,6 +293,22 @@ public class Recipe extends javax.swing.JFrame {
         methods.setEditable(true);
         repName.setEditable(true);
     }//GEN-LAST:event_editActionPerformed
+
+    private void okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okActionPerformed
+        // TODO add your handling code here:
+        String rep = jComboBox1.getSelectedItem().toString();
+        db.getRecipe(rep);
+        items.setText("");
+        methods.setText("");
+        repName.setText(rep);
+        ArrayList<String> itm = db.indegrients;
+        ArrayList<String> mtd = db.method;
+        for(String x : itm)
+            items.append(x + "\n");
+        for(String x: mtd)
+            methods.append(x + "\n");
+        
+    }//GEN-LAST:event_okActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,14 +352,18 @@ public class Recipe extends javax.swing.JFrame {
     private javax.swing.JButton edit;
     private javax.swing.JTextArea items;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea methods;
+    private javax.swing.JButton ok;
     private javax.swing.JTextField repName;
     // End of variables declaration//GEN-END:variables
 }
