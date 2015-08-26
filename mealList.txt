@@ -1,2 +1,4 @@
 paneer butter,,paneer butter masala::panner do pyaza::
 paneer 2,,panner do pyaza::
+panee 3,,panner do pyaza::
+butter,,paneer butter masala::
